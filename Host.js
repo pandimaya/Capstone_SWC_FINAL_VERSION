@@ -52,8 +52,15 @@ myapp.get('/Registerpage', (req, res) => {
 });
 
 myapp.get('/StudentHomepage', (req, res) => {
-  const studentData = req.session.studentData;
-  res.render('StudentHomepage', { studentData });
+  const authToken = req.headers.authorization;
+  // Check if the user is authenticated (token is valid)
+  if (authTokenIsValid(authToken)) {
+    // User is authenticated - proceed to render the StudentHomepage
+    res.render('StudentHomepage');
+  } else {
+    // Redirect unauthenticated users to the login page
+    res.redirect('/');
+  }
 });
 
 myapp.get('/StudentProfilePage', (req, res) => {

@@ -56,25 +56,8 @@ myapp.get('/StudentHomepage', (req, res) => {
   res.render('StudentHomepage', { studentData });
 });
 
-myapp.get('/studentProfilePage', async (req, res) => {
-  let studentData = req.session.studentData;
-  if (!studentData) {
-    try {
-      // Assuming usage of Supabase
-      const { data: student, error: studentError } = await supabase
-        .from('Student Accounts')
-        .select('*')
-        .eq('email', req.user.email)
-        .single();
-      if (student) {
-        req.session.studentData = student;
-        studentData = student;
-      }
-    } catch (err) {
-      console.error("Error fetching student data:", err);
-      // Handle the error, e.g., set studentData to a default value or handle the error response
-    }
-  }
+myapp.get('/studentProfilePage', (req, res) => {
+  const studentData = req.session.studentData;
   res.render('studentProfilePage', { studentData });
 });
 

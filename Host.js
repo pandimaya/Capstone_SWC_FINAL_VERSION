@@ -14,7 +14,7 @@ myapp.listen(port, () => {
 myapp.use(session({
   secret: 'your_secret_key', // Change this to a secret key for session encryption
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { secure: false } // Set secure to true if you use HTTPS
 }));
 

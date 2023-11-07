@@ -52,27 +52,13 @@ myapp.get('/Registerpage', (req, res) => {
 });
 
 myapp.get('/StudentHomepage', (req, res) => {
-  const authToken = req.headers.authorization;
-  // Check if the user is authenticated (token is valid)
-  if (authTokenIsValid(authToken)) {
-    // User is authenticated - proceed to render the StudentHomepage
-    res.render('StudentHomepage');
-  } else {
-    // Redirect unauthenticated users to the login page
-    res.redirect('/');
-  }
+  const studentData = req.session.studentData;
+  res.render('StudentHomepage', { studentData });
 });
 
 myapp.get('/StudentProfilePage', (req, res) => {
   const studentData = req.session.studentData;
-  console.log('Student Data:', studentData);
-  if (studentData) {
-    res.render('StudentProfilePage', { studentData });
-
-  } else {
-    // Handle the case when session data is missing or undefined
-    res.redirect('/'); // Redirect to login page or handle the situation accordingly
-  }
+  res.render('StudentProfilePage', { studentData });
 });
 
 myapp.get('/studentAppointmentStatus', async (req, res) => {

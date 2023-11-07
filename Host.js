@@ -56,7 +56,7 @@ myapp.get('/StudentHomepage', (req, res) => {
   res.render('StudentHomepage', { studentData });
 });
 
-myapp.get('/StudentProfilePage', async (req, res) => {
+myapp.get('/studentProfilePage', async (req, res) => {
   let studentData = req.session.studentData;
   if (!studentData) {
     try {
@@ -75,7 +75,7 @@ myapp.get('/StudentProfilePage', async (req, res) => {
       // Handle the error, e.g., set studentData to a default value or handle the error response
     }
   }
-  res.render('StudentProfilePage', { studentData });
+  res.render('studentProfilePage', { studentData });
 });
 
 myapp.get('/studentAppointmentStatus', async (req, res) => {

@@ -13,7 +13,7 @@ myapp.listen(port, () => {
 // Configure express-session middleware
 myapp.use(session({
   secret: 'your_secret_key', // Change this to a secret key for session encryption
-  resave: false,
+  resave: true,
   saveUninitialized: true,
   cookie: { secure: false } // Set secure to true if you use HTTPS
 }));
@@ -45,11 +45,11 @@ myapp.use(express.static(__dirname + '/assets'));
 //LINKS
 myapp.get('/', (req, res) => {
   if (req.session.studentData) {
-    res.render('StudentDashboard', { studentData: req.session.studentData });
+    res.render('StudentHomepage', { studentData: req.session.studentData });
   } else if (req.session.counselorData) {
     res.render('CounselorDashboard', { counselorData: req.session.counselorData });
   } else {
-  res.render('LoginPage');
+    res.render('LoginPage');
   }
 });
 
@@ -58,8 +58,11 @@ myapp.get('/Registerpage', (req, res) => {
 });
 
 myapp.get('/StudentHomepage', (req, res) => {
-  const studentData = req.session.studentData;
-  res.render('StudentHomepage', { studentData });
+  if (req.session.studentData) {
+    res.render('StudentHomepage', { studentData: req.session.studentData });
+  } else {
+    res.redirect('/'); // Redirect to the login page or handle unauthorized access
+  }
 });
 
 myapp.get('/studentProfilePage', (req, res) => {

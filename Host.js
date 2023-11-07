@@ -44,7 +44,13 @@ myapp.use(express.static(__dirname + '/assets'));
 
 //LINKS
 myapp.get('/', (req, res) => {
+  if (req.session.studentData) {
+    res.render('StudentDashboard', { studentData: req.session.studentData });
+  } else if (req.session.counselorData) {
+    res.render('CounselorDashboard', { counselorData: req.session.counselorData });
+  } else {
   res.render('LoginPage');
+  }
 });
 
 myapp.get('/Registerpage', (req, res) => {

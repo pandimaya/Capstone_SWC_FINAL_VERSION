@@ -61,11 +61,6 @@ myapp.get('/StudentProfilePage', (req, res) => {
   res.render('StudentProfilePage', { studentData });
 });
 
-myapp.get('/StudentHomepage', (req, res) => {
-  const studentData = req.session.studentData;
-  res.render('StudentHomepage', { studentData });
-});
-
 myapp.get('/studentAppointmentStatus', async (req, res) => {
   try {
     // Extract counselor's email from the session data

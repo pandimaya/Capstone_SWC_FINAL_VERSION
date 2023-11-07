@@ -37,10 +37,10 @@ myapp.use(express.json());
 myapp.use(express.urlencoded({ extended: true }));
 myapp.use(cors());
 
-myapp.use(express.static('assets'));
+
 myapp.set('view engine', 'ejs');
 myapp.set('views', __dirname + '/view');
-app.use(express.static(path.join(__dirname, "public")));
+myapp.use(express.static(path.join(__dirname, "assets")));
 
 //LINKS
 myapp.get('/', (req, res) => {

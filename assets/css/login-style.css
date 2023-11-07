@@ -2,9 +2,10 @@ body {
     color: #000;
     overflow-x: hidden;
     height: 100%;
-    background-image: url("https://www.dlsu.edu.ph/wp-content/uploads/2021/01/Banner-BG-image.jpg"); /* Replace with the provided background image link */
+    background-image: url("/img/dlsud-bg-login.png"); /* Replace with the provided background image link */
     background-size: cover;
     background-repeat: no-repeat;
+    
 }
 
 .background-image {

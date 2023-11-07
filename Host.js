@@ -15,7 +15,7 @@ myapp.use(session({
   secret: 'your_secret_key', // Change this to a secret key for session encryption
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // Set secure to true if you use HTTPS
+  cookie: { secure: true } // Set secure to true if you use HTTPS
 }));
 
 

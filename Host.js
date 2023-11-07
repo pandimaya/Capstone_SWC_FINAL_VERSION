@@ -58,8 +58,10 @@ myapp.get('/StudentHomepage', (req, res) => {
 
 myapp.get('/StudentProfilePage', (req, res) => {
   const studentData = req.session.studentData;
+  console.log('Student Data:', studentData);
   if (studentData) {
     res.render('StudentProfilePage', { studentData });
+
   } else {
     // Handle the case when session data is missing or undefined
     res.redirect('/'); // Redirect to login page or handle the situation accordingly

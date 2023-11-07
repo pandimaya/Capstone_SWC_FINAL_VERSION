@@ -40,6 +40,7 @@ myapp.use(cors());
 myapp.use(express.static('assets'));
 myapp.set('view engine', 'ejs');
 myapp.set('views', __dirname + '/view');
+app.use(express.static(path.join(__dirname, "public")));
 
 //LINKS
 myapp.get('/', (req, res) => {

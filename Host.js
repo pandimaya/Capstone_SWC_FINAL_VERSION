@@ -3,7 +3,7 @@ const cors = require('cors');
 const ejs = require('ejs');
 const myapp = express();
 const port = 3030;
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const session = require('express-session');
 
 myapp.listen(port, () => {
@@ -443,7 +443,7 @@ myapp.post('/login', async (req, res) => {
       return;
     }
     console.log(data || data.userData);
-
+    
       // Fetch the student data from the specific table
       const { data: studentData, error: studentError } = await supabase
         .from('Student Accounts')

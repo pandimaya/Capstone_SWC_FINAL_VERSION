@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "@supabase/supabase-js": "^2.36.0",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mongo": "^0.1.0",
+    "nodemailer": "^6.9.5"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "green",
+  "description": "Thanks for downloading this template!",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "",
+  "license": "ISC",
+  "keywords": []
+}

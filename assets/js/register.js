@@ -1,7 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
+  const returnToLoginButton = document.getElementById('returnToLoginButton');
   const createAccountButton = document.getElementById('createAccountButton');
   const accountTypeSelect = document.getElementById('accountType');
   const departmentDropdown = document.getElementById('departmentDropdown');
+
+  returnToLoginButton.click(function() {
+    var loginPageURL = '/LoginPage';
+    // Navigate to the login page
+    window.location.href = loginPageURL;
+  });
 
   if (createAccountButton && accountTypeSelect) {
     createAccountButton.addEventListener('click', handleRegistration);

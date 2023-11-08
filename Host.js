@@ -60,6 +60,7 @@ myapp.get('/studentProfilePage', (req, res) => {
   res.render('studentProfilePage', { studentData });
 });
 
+
 myapp.get('/studentAppointmentStatus', async (req, res) => {
   try {
     // Extract counselor's email from the session data
@@ -153,6 +154,11 @@ myapp.get('/CreateAppointmentPage', (req, res) => {
 myapp.get('/CounselorHomePage', (req, res) => {
   const counselorData = req.session.counselorData;
   res.render('CounselorHomePage', { counselorData });
+});
+
+myapp.get('/CounselorProfilePage', (req, res) => {
+  const counselorData = req.session.counselorData;
+  res.render('CounselorProfilePage', { counselorData });
 });
 
 myapp.get('/CounselorPendingAppointmentPage', async (req, res) => {

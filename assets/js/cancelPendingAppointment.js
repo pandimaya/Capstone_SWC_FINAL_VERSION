@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
           }, 1000);
         } else {
           console.error('Failed to cancel the appointment');
+          alert('Failed to cancel the appointment');
         }
       })
       .catch(error => {

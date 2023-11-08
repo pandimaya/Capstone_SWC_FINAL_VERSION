@@ -87,6 +87,7 @@
     </div>
   </div>
   </header><!-- End Header -->
+
   <main>
     <div class="container">
       <h1>Report</h1>
@@ -100,9 +101,10 @@
           <input type="text" class="form-control" id="lname" name="lname">
         </div>
         <div class="mb-3">
-            <label for="email" class="form-label">Email:</label>
-            <input type="text" class="form-control" id="email" name="email">
-          </div>
+          <label for="email" class="form-label">Email:</label>
+          <input type="text" class="form-control" id="email" name="email" oninput="suggestEmails()">
+      </div>
+      <div id="emailSuggestions"></div>
         <div class="mb-3">
           <label for="progcode" class="form-label">Progcode:</label>
           <input type="text" class="form-control" id="progcode" name="progcode">
@@ -181,6 +183,16 @@
 
 
   <style>
+      /* CSS for the suggestion items */
+      .suggestion-item {
+        padding: 5px;
+        cursor: pointer;
+    }
+
+    /* Highlight effect on hover */
+    .suggestion-item:hover {
+        background-color: #f0f0f0; /* Change the background color as per your design */
+    }
     body {
       display: flex;
       flex-direction: column;

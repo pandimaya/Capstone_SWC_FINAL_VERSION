@@ -305,14 +305,14 @@ myapp.get('/CounselorLogs', async (req, res) => {
       .from('Report')
       .select('*')
       .eq('counselor_email', counselorEmail)
-      .order('date_encoded', { ascending: true },'time_encoded', { ascending: true }); 
+      .order('date_encoded', { ascending: true }, 'time_encoded', { ascending: true });
 
     if (error) {
       console.error('Error fetching appointments:', error.message);
       return res.status(500).send('Internal server error');
     }
 
-    res.render('CounselorLogs', { counselorLog});
+    res.render('CounselorLogs', { counselorLog });
   } catch (error) {
     // Handle any unexpected server errors
     console.error('Server error:', error.message);
@@ -323,6 +323,22 @@ myapp.get('/CounselorLogs', async (req, res) => {
 myapp.get('/CounselorReport', (req, res) => {
   const counselorData = req.session.counselorData;
   res.render('CounselorReport', { counselorData });
+});
+
+myapp.get('/emailSuggestions', async (req, res) => {
+  const userInput = req.query.input; 
+  const { data: suggestedEmails, error } = await supabase
+      .from('Student Accounts')
+      .select('*')
+      .ilike('email', `%${userInput}%`);
+
+  if (error) {
+      // Handle error, if necessary
+      console.error('Error fetching student data:', error);
+      return res.status(500).json({ error: 'Error fetching suggestions' });
+  }
+
+  res.json({ suggestions: suggestedEmails });
 });
 
 myapp.get('/adminCreateAccounts', (req, res) => {

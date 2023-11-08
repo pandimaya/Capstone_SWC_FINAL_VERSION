@@ -1,3 +1,4 @@
+
 function toggleRow(rowId) {
     const hiddenRow = document.getElementById(rowId);
     if (hiddenRow.classList.contains('open')) {

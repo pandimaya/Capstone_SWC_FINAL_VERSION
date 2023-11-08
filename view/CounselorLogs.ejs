@@ -86,65 +86,48 @@
   </header><!-- End Header -->
 
   <main id="main">
-    <div class="container">
-      <!-- Fixed Header - Title of Categories -->
-      <div class="row mb-3">
-        <div class="col">
-          <strong>NAME:</strong>
-        </div>
-        <div class="col">
-          <strong>PROGCODE:</strong>
-        </div>
-        <div class="col">
-          <strong>DATE ENCODED:</strong>
-        </div>
-      </div>
-      <div class="accordion" id="userInfoAccordion">
-        <!-- User Information Collapsible -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="userHeading">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#userInfoCollapse" aria-expanded="true" aria-controls="userInfoCollapse">
-              ALEX - BIT - 42
-            </button>
-          </h2>
-          <div id="userInfoCollapse" class="accordion-collapse collapse" aria-labelledby="userHeading" data-bs-parent="#userInfoAccordion">
-            <div class="accordion-body">
-              <!-- Category Row -->
-              <div class="row mb-3">
-                <div class="col-4">Email:</div>
-                <div class="col-8">example@email.com</div>
-              </div>
-              <div class="row mb-3">
-                <div class="col-4">ProgCode:</div>
-                <div class="col-8">XYZ123</div>
-              </div>
-              <div class="row mb-3">
-                <div class="col-4">Type of Service:</div>
-                <div class="col-8">Counseling</div>
-              </div>
-              <div class="row mb-3">
-                <div class="col-4">Category Type:</div>
-                <div class="col-8">Personal</div>
-              </div>
-              <div class="row mb-3">
-                <div class="col-4">Nature of Concern:</div>
-                <div class="col-8">Academic</div>
-              </div>
-              <div class="row mb-3">
-                <div class="col-4">Counseling Session Name:</div>
-                <div class="col-8">Session A</div>
-              </div>
-              <div class="row mb-3">
-                <div class="col-4">Data Encoded:</div>
-                <div class="col-8">2023-11-08</div>
-              </div>
-              <!-- Add more categories and data as needed -->
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Student Name</th>
+            <th scope="col">Session Name</th>
+            <th scope="col">Date Encoded</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% counselorLog.forEach((log, index) => { %>
+            <tr class="accordion" id="row<%= index %>" onclick="toggleRow('hidden-row<%= index %>')">
+              <td>
+                <div class="arrow-icon"></div>
+                <%= log.student_lname %> <%= log.student_fname %>
+              </td>
+              <td><%= log.session %></td>
+              <td><%= log.date_encoded %> <%= log.time_encoded %></td>
+            </tr>
+            <tr class="hidden-row" id="hidden-row<%= index %>">
+              <td colspan="3">
+                <div class="additional-info">
+                  <!-- Additional information here -->
+                  <div>Student Email: <%= log.student_email %></div>
+                  <div>ProgCode: <%= log.progcode %></div>
+                  <div>Type Of Service: <%= log.service %></div>
+                  <div>Category Type: <%= log.category %></div>
+                  <div>Nature Of Concern: <%= log.concern %></div>
+                  <div>Counseling Client: <%= log.client %></div>
+                  <div>Session Name: <%= log.session %></div>
+                  <div>Date Encoded: <%= log.date_encoded %>  <%= log.time_encoded %></div>
+                  <!-- Add more details as needed -->
+                </div>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
     </div>
   </main>
+  
+
   
 
   <!-- ======= Footer ======= -->
@@ -176,11 +159,44 @@
 
   <!-- Template Main JS File -->
   <script src="/js/home-page.js"></script>
-  <script src="/js/acceptingAppointment.js"></script>
-  <script src="/js/rejectingAppointment.js"></script>
+  <script src="/js/counselorLog.js"></script>
 
 
   <style>
+    .hidden-row {
+  display: none;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out; /* Smooth transition */
+  max-height: 0;
+}
+
+.hidden-row.open {
+  display: table-row;
+  max-height: 200px; /* Set max-height based on the content size */
+}
+
+.arrow-icon {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #000; /* Change color as needed */
+  margin-right: 5px;
+  transition: transform 0.3s ease-out; /* Smooth transition for arrow rotation */
+}
+
+.open .arrow-icon {
+  transform: rotate(180deg); /* Rotate arrow when row is open */
+}
+
+.additional-info {
+  margin: 10px 0;
+  padding: 10px;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+}
+
     body {
       display: flex;
       flex-direction: column;

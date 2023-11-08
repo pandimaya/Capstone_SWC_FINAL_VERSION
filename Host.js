@@ -297,8 +297,27 @@ myapp.get('/CounselorAppointmentHistoryPage', async (req, res) => {
   }
 });
 
-myapp.get('/CounselorLogs', (req, res) => {
-  res.render('CounselorLogs');
+myapp.get('/CounselorLogs', async (req, res) => {
+  try {
+    const counselorData = req.session.counselorData;
+    const counselorEmail = counselorData.email;
+    const { data: counselorLog, error } = await supabase
+      .from('Report')
+      .select('*')
+      .eq('counselor_email', counselorEmail)
+      .order('date_encoded', { ascending: true },'time_encoded', { ascending: true }); 
+
+    if (error) {
+      console.error('Error fetching appointments:', error.message);
+      return res.status(500).send('Internal server error');
+    }
+
+    res.render('CounselorLogs', { counselorLog});
+  } catch (error) {
+    // Handle any unexpected server errors
+    console.error('Server error:', error.message);
+    res.status(500).send('Internal server error');
+  }
 });
 
 myapp.get('/CounselorReport', (req, res) => {

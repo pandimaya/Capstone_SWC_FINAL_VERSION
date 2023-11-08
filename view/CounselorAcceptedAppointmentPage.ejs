@@ -70,7 +70,8 @@
           </li>
           <li class="dropdown"><a href="#"><span>Documentation</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
-              <li><a href="#">Report</a></li>
+              <li><a href="/CounselorLogs">Logs</a></li>
+              <li><a href="/CounselorReport">Report</a></li>
             </ul>
           </li>
           <li><a class="nav-link scrollto " href="#portfolio">Messages</a></li>
@@ -110,7 +111,7 @@
               <td><%= appointment.appointed_time %></td>
               <td><%= appointment.appointed_date %></td>
               <td>
-                <button class="btn btn-success" data-appointment-id="<%= appointment.id %>">Accept</button>
+                <button class="btn btn-success" data-appointment-id="<%= appointment.id %>">Copmlete</button>
               </td>
               <td>
                 <button class="btn btn-danger cancel-appointment" data-appointment-id="<%= appointment.id %>">Cancel</button>

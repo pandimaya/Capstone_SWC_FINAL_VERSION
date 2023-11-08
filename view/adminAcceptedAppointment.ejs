@@ -81,103 +81,40 @@
 
     </div>
   </header><!-- End Header -->
-
   <main id="main">
-
-<!-- Table -->
-<!-- Add the tab structure -->
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="student-tab" data-bs-toggle="tab" href="#student" role="tab" aria-controls="student" aria-selected="true">Students</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="counselor-tab" data-bs-toggle="tab" href="#counselor" role="tab" aria-controls="counselor" aria-selected="false">Counselors</a>
-  </li>
-</ul>
-
-<div class="tab-content" id="myTabContent">
-  <!-- Students Tab Content -->
-  <div class="tab-pane fade show active" id="student" role="tabpanel" aria-labelledby="student-tab">
-    <table class="table table-hover">
-      <thead class="table-dark">
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Last Name</th>
-          <th scope="col">First Name</th>
-          <th scope="col">Birthdate</th>
-          <th scope="col">Gender</th>
-          <th scope="col">Email</th>
-          <th scope="col">Password</th>
-          <th scope="col">Phone Number</th>
-          <th scope="col">Action</th>
-      </tr>
-      </thead>
-      <tbody>
-        <% studData.forEach((item) => { %>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead class="table-dark">
           <tr>
-            <th scope="row"><%= item.idNumber %></th>
-            <td><%= item.lastName %></td>
-            <td><%= item.firstName %></td>
-            <td><%= item.birthDate %></td>
-            <td><%= item.gender %></td>
-            <td><%= item.email %></td>
-            <td><%= item.password %></td>
-            <td><%= item.phoneNumber %></td>
-            <td>
-              <button class="btn btn-success" onclick="acceptAccount('<%= item.idNumber %>', 'Student')">Accept</button>
-              <button class="btn btn-danger" onclick="rejectAccount('<%= item.idNumber %>', 'Student')">Reject</button>
-            </td>
+            <th scope="col">Time</th>
+            <th scope="col">Date</th>
+            <th scope="col">Student Email</th>
+            <th scope="col">Student</th>
+            <th scope="col">Department</th>
+            <th scope="col">Appointed Time</th>
+            <th scope="col">Appointed Date</th>
           </tr>
-        <% }); %>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Counselors Tab Content -->
-  <div class="tab-pane fade" id="counselor" role="tabpanel" aria-labelledby="counselor-tab">
-    <table class="table table-hover">
-      <thead class="table-dark">
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Last Name</th>
-          <th scope="col">First Name</th>
-          <th scope="col">Birthdate</th>
-          <th scope="col">Gender</th>
-          <th scope="col">Email</th>
-          <th scope="col">Password</th>
-          <th scope="col">Phone Number</th>
-          <th scope="col">Action</th>
-      </tr>
-      </thead>
-      <tbody>
-        <% counData.forEach((item2) => { %>
-          <tr>
-            <th scope="row"><%= item2.idNumber %></th>
-            <td><%= item2.lastName %></td>
-            <td><%= item2.firstName %></td>
-            <td><%= item2.birthDate %></td>
-            <td><%= item2.gender %></td>
-            <td><%= item2.email %></td>
-            <td><%= item2.password %></td>
-            <td><%= item2.phoneNumber %></td>
-            <td>
-              <button class="btn btn-success" onclick="acceptAccount('<%= item2.idNumber %>', 'Counselor')">Accept</button>
-              <button class="btn btn-danger" onclick="rejectAccount('<%= item2.idNumber %>', 'Counselor')">Reject</button>
-            </td>
-          </tr>
-        <% }); %>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-  </main><!-- End #main -->
+        </thead>
+        <tbody>
+          <% acceptedAppointment.forEach((appointment) => { %>
+            <tr>
+              <td><%= appointment.time %></td>
+              <td><%= appointment.date %></td>
+              <td><%= appointment.email %></td>
+              <td><%= appointment.last_name %> <%= appointment.first_name %></td>
+              <td><%= appointment.department %></td>
+              <td><%= appointment.appointed_time %></td>
+              <td><%= appointment.appointed_date %></td>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </main>
 
   <!-- ======= Footer ======= -->
   <footer id="footer">
     <div class="container">
-      <h3>Student Wellness Center</h3>
-      <p>Create possibilities with DLSU-D.</p>
+      <h3>You are in Create accounts</h3>
       <div class="social-links">
         <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
         <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
@@ -187,6 +124,13 @@
       </div>
       <div class="copyright">
         &copy; Copyright <strong><span>De La Salle</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/green-free-one-page-bootstrap-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
       </div>
     </div>
   </footer><!-- End Footer -->
@@ -201,27 +145,9 @@
   <script src="/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  <script src="/js/adminCreateAccount"></script>
   <script src="/js/home-page.js"></script>
-  <script src="/js/pendingAccount.js"></script>
-
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    main {
-      flex: 1; /* This makes the main content take up the remaining vertical space */
-    }
-
-    /* If needed, adjust the footer styles below */
-    #footer {
-      padding: 30px 0;
-      text-align: center;
-      width: 100%;
-    }
-  </style>
 
 </body>
 

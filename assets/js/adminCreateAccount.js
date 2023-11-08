@@ -32,7 +32,6 @@ function handleRegistration() {
   const birthDate = document.querySelector('#birthdayDate').value;
   const gender = document.querySelector('input[name="gender"]:checked').value;
   const email = document.querySelector('#email').value;
-  const password = document.querySelector('#password').value;
   const idNumber = document.querySelector('#IDnumber').value;
   const phoneNumber = document.querySelector('#phoneNumber').value;
   const accountType = document.querySelector('#accountType').value;
@@ -49,7 +48,6 @@ function handleRegistration() {
     !lastName ||
     !birthDate ||
     !email ||
-    !password ||
     !idNumber ||
     !phoneNumber
   ) {
@@ -81,7 +79,6 @@ function handleRegistration() {
     birthDate,
     gender,
     email,
-    password,
     idNumber,
     phoneNumber,
     accountType,
@@ -89,7 +86,7 @@ function handleRegistration() {
   };
 
   // Send the user data to the server
-  fetch('/register', {
+  fetch('/adminCreateAccount', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

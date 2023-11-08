@@ -29,6 +29,7 @@ function saveDepartments(email) {
   .then(response => {
     if (response.ok) {
         console.log('Departments updated successfully');
+        alert('Departments Updated Successfully!');
     } else {
         console.error('Failed to update departments. Response:', response);
     }

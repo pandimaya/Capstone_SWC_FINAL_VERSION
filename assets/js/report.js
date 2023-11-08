@@ -40,9 +40,11 @@ function insertRecord() {
         // Handle the response from the server
         if (data.message === 'Encoded successfully') {
             // Display a success message or redirect to a confirmation page
+            alert('Report Submitted Successfully');
             console.log('Encode created successfully');
         } else {
             // Handle errors or display an error message
+            alert('Report Creation Failed');
             console.error('Encode creation failed');
         }
     })

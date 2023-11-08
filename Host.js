@@ -411,7 +411,29 @@ myapp.get('/adminViewAccounts', async (req, res) => {
   }
 });
 
+myapp.get('/adminCounselorLog', async (req, res) => {
+  try {
+    const { data: counselorLog, error } = await supabase
+      .from('Report')
+      .select('*')
+      .order('date_encoded', { ascending: true },'time_encoded', { ascending: true }); 
 
+    if (error) {
+      console.error('Error fetching appointments:', error.message);
+      return res.status(500).send('Internal server error');
+    }
+
+    res.render('adminCounselorLog', { counselorLog });
+  } catch (error) {
+    // Handle any unexpected server errors
+    console.error('Server error:', error.message);
+    res.status(500).send('Internal server error');
+  }
+});
+
+myapp.get('/adminHomepage', (req, res) => {
+  res.render('adminHomepage');
+});
 
 
 
@@ -1156,7 +1178,6 @@ myapp.post('/counselorEncoding', async (req, res) => {
    res.status(500).send('Internal server error');
  }
 });
-
 
 myapp.post('/adminCreateAccount', async (req, res) => {
   const { idNumber, email, lastName, firstName, gender, birthDate, phoneNumber, accountType, departmentSelect } = req.body;

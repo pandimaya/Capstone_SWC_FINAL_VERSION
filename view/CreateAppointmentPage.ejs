@@ -40,7 +40,9 @@
     <div class="container d-flex justify-content-center justify-content-md-between">
       <div class="contact-info d-flex align-items-center">
         <% if (studentData && studentData.last_name && studentData.first_name) { %>
-          Welcome <%= studentData.last_name %> <%= studentData.first_name %>
+          <div class="contact-info d-flex align-items-center">
+            <i class="bi bi-person"></i> Welcome, <%= studentData.last_name %> <%= studentData.first_name %>
+          </div>
         <% } else { %>
           Welcome, Guest <!-- Or handle the case when data is not available -->
         <% } %>

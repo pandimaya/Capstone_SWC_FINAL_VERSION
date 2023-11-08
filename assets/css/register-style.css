@@ -7,11 +7,11 @@ body {
     background-repeat: no-repeat;
 }
 
-.gradient-custom {
+/* .gradient-custom {
     background: #f093fb;
     background: -webkit-linear-gradient(top left, #56C596, #4CAF50, #00796B);
     background: linear-gradient(to bottom right, #56C596, #4CAF50, #00796B);
-}
+} */
 
 .card-registration {
     border-radius: 15px;

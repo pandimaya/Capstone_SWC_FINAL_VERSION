@@ -50,14 +50,14 @@
   <!-- ======= Header ======= -->
   <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center">
-      <h1 class="logo me-auto"><a href="/StudentHomepage">DLSU-D Student Wellness Center</a></h1>
+      <h1 class="logo me-auto"><a href="/CounselorHomePage">DLSU-D Student Wellness Center</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
       <nav id="navbar" class="navbar">
         <ul>
           <li class="dropdown"><a href="#"><span>Profile</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
-              <li><a href="/studentProfilePage">Account Details</a></li>
+              <li><a href="/CounselorProfilePage">Account Details</a></li>
               <li><a href="#">Help</a></li>
               <li><a href="#">Settings</a></li>
             </ul>
@@ -86,21 +86,69 @@
     </div>
   </header><!-- End Header -->
 
+  <section class="vh-100" style="background-color: #f4f5f7;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-lg-6 mb-4 mb-lg-0">
+          <div class="card mb-3" style="border-radius: .5rem;">
+            <div class="row g-0">
+              <div class="col-md-4 gradient-custom text-center text-white"
+                style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                <img src="/img/profile-avatar-green.png"
+                  alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+                <h5><%= counselorData.first_name %> <%= counselorData.last_name %></h5>
+                <p><%= counselorData.department %></p>
+                <i class="far fa-edit mb-5"></i>
+              </div>
+              <div class="col-md-8">
+                <div class="card-body p-4">
+                  <h6>Information</h6>
+                  <hr class="mt-0 mb-4">
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3">
+                      <h6>Email</h6>
+                      <p class="text-muted"> <%= counselorData.email %></p>
+                    </div>
+                    <div class="col-6 mb-3">
+                      <h6>Phone</h6>
+                      <p class="text-muted"><%= counselorData.phone_number %></p>
+                    </div>
+                  </div>
+                  <hr class="mt-0 mb-4">
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3">
+                      <h6>Account Type</h6>
+                      <p class="text-muted"><%= counselorData.accountType %></p>
+                    </div>
+                    <div class="col-6 mb-3">
+                      <h6>Department Assign</h6>
+                      <p class="text-muted"><%= counselorData.department %></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
  <!-- Your Student Profile Content Goes Here -->
- <section id="student-profile">
-  <div class="container">
+ <!-- <section id="student-profile">
+  <div class="container"> -->
     <!-- Display student profile information here -->
-    <h2>Welcome, <%= counselorData.first_name %> <%= counselorData.last_name %></h2>
+    <!-- <h2>Welcome, <%= counselorData.first_name %> <%= counselorData.last_name %></h2>
     <p>Email: <%= counselorData.email %></p>
     <p>ID Number: <%= counselorData.id_number %></p>
     <p>Department Assign: <%= counselorData.department %></p>
     <p>Birthday: <%= counselorData.birth_date %></p>
     <p>Phone Number: <%= counselorData.phone_number %></p>
-    <p>Account Type: <%= counselorData.accountType %></p>
+    <p>Account Type: <%= counselorData.accountType %></p> -->
     
     <!-- Add more student information as needed -->
-  </div>
-</section>
+  <!-- </div>
+</section> -->
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->

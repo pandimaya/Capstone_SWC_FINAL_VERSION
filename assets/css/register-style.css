@@ -2,7 +2,9 @@ body {
     color: #000;
     overflow-x: hidden;
     height: 100%;
-    background-image: linear-gradient(to bottom right, #56C596, #4CAF50, #00796B);
+    background-image: url("/img/dlsud-bg-login.png"); /* Replace with the provided background image link */
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .gradient-custom {

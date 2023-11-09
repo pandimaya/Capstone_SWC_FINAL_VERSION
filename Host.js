@@ -19,15 +19,15 @@ myapp.set('view engine', 'ejs');
 myapp.set('views', __dirname + '/view');
 myapp.use(express.static(__dirname + '/assets'));
 
-// Configure express-session middleware
+
 myapp.use(session({
-  secret: 'your_secret_key', // Change this to a secret key for session encryption
+  secret: 'your_secret_key', 
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } // Set secure to true if you use HTTPS
+  cookie: { secure: false } 
 }));
 
-// Middleware to prevent caching
+
 myapp.use((req, res, next) => {
   res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
   res.setHeader("Pragma", "no-cache");
@@ -40,8 +40,7 @@ const { createClient, SupabaseClient } = require('@supabase/supabase-js');
 const supabase = createClient('https://waeqvekicdlqijxmhclw.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndhZXF2ZWtpY2RscWlqeG1oY2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTUyNjMxNjIsImV4cCI6MjAxMDgzOTE2Mn0.8Ga9_qwNgeAKlqWI_xCLQPJFqGha3XfiNMxrT8_RXaM');
 
 
-
-//LINKS
+//=========GETTING===========//
 myapp.get('/', (req, res) => {
     res.render('LoginPage');
 });

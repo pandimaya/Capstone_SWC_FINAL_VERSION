@@ -24,11 +24,16 @@ myapp.use(session({
   secret: 'your_secret_key', 
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: true } 
+  cookie: { secure: false } 
 }));
 
 
-
+myapp.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
+  next();
+});
 
 // Supabase configuration
 const { createClient, SupabaseClient } = require('@supabase/supabase-js');
@@ -782,7 +787,6 @@ myapp.post('/studentCancelAppointment/:appointmentId', async (req, res) => {
     res.status(500).send('Internal server error');
   }
 });
-
 //EDIT ROLES
 myapp.post('/updateDepartments', async (req, res) => {
   const { email, departments } = req.body;

@@ -151,10 +151,118 @@ myapp.get('/CreateAppointmentPage', (req, res) => {
   res.render('CreateAppointmentPage', { studentData });
 });
 
-myapp.get('/CounselorHomePage', (req, res) => {
-  const counselorData = req.session.counselorData;
-  res.render('CounselorHomePage', { counselorData });
-});
+myapp.get('/CounselorHomePage',async (req, res) => {
+    let hasNewAppointments;
+    try {
+      const counselorData = req.session.counselorData;
+      const counselorEmail = counselorData.email;
+  
+      // Fetch counselor's departments
+      const { data: counselorDepartments, error: counselorError } = await supabase
+        .from('Counselor Role')
+        .select('department')
+        .eq('email', counselorEmail);
+  
+      if (counselorError) {
+        console.error('Error fetching counselor departments:', counselorError.message);
+        return res.status(500).send('Internal server error');
+      }
+  
+      const departments = counselorDepartments.map(entry => entry.department);
+  
+      // Fetch new appointments
+      const { data: newAppointments, error: newAppointmentsError } = await supabase
+        .from('Pending Appointment')
+        .select('*')
+        .in('department', departments)
+        .eq('notif', true)
+        .order('date', { ascending: true });
+  
+      if (newAppointmentsError) {
+        console.error('Error fetching new appointments:', newAppointmentsError.message);
+  console.log('Has new appointments:', newAppointments);
+        return res.status(500).send('Internal server error');
+      }
+      else{
+  console.log('Has new appointments:', newAppointments);
+      }
+  
+      hasNewAppointments = newAppointments.length > 0;
+  
+      // Fetch all pending appointments
+      const { data: pendingAppointments, error } = await supabase
+        .from('Pending Appointment')
+        .select('*')
+        .in('department', departments)
+        .order('date', { ascending: true });
+  
+      if (error) {
+        console.error('Error fetching pending appointments:', error.message);
+        return res.status(500).send('Internal server error');
+      }
+  
+  
+      const currentTime = new Date();
+      const updatedPendingAppointments = [];
+  
+      // Loop through pending appointments
+      for (const appointment of pendingAppointments) {
+        const appointedDateTime = new Date(`${appointment.appointed_date} ${appointment.appointed_time}`);
+        
+        if (currentTime > appointedDateTime) {
+          // Prepare data for 'Appointment History' with REJECTED status
+          const rejectedAppointmentData = {
+            counselor_email: counselorEmail,
+            counselor_Fname: counselorData.first_name,
+            counselor_Lname: counselorData.last_name,
+            date: appointment.appointed_date,
+            time: appointment.appointed_time,
+            email: appointment.email,
+            department: appointment.department,
+            first_name: appointment.first_name,
+            last_name: appointment.last_name,
+            appointed_date: appointment.appointed_date,
+            appointed_time: appointment.appointed_time,
+            prog_status: 'IGNORED'
+            // Add other fields needed for the Appointment History table
+          };
+  
+          // Insert rejected appointment in the 'Appointment History' table
+          const { data: insertedAppointment, error: insertError } = await supabase
+            .from('Appointment History')
+            .insert(rejectedAppointmentData);
+  
+          if (insertError) {
+            console.error('Error inserting rejected appointment:', insertError.message);
+            // Handle the error if insertion fails
+          }
+  
+          // Delete the rejected appointment from 'Pending Appointment'
+          const { error: deleteError } = await supabase
+            .from('Pending Appointment')
+            .delete()
+            .eq('id', appointment.id);
+  
+          if (deleteError) {
+            console.error('Error deleting expired appointment:', deleteError.message);
+            // Handle the error if deletion fails
+          }
+        } else {
+          // Appointment is still pending, add it to the updated list
+          updatedPendingAppointments.push(appointment);
+          console.log('Pending Appointments:', updatedPendingAppointments);
+  
+        }
+      }
+  
+      const pendingAppointmentsCount = newAppointments.length;
+      res.render('CounselorHomePage', { counselorData, pendingAppointments: updatedPendingAppointments, hasNewAppointments: hasNewAppointments, pendingAppointmentsCount:pendingAppointmentsCount });
+    } catch (error) {
+      
+      console.error('Server error:', error.message);
+      res.status(500).send('Internal server error');
+    }
+  });
 
 myapp.get('/CounselorProfilePage', (req, res) => {
   const counselorData = req.session.counselorData;
@@ -162,10 +270,12 @@ myapp.get('/CounselorProfilePage', (req, res) => {
 });
 
 myapp.get('/CounselorPendingAppointmentPage', async (req, res) => {
+  let hasNewAppointments;
   try {
     const counselorData = req.session.counselorData;
     const counselorEmail = counselorData.email;
 
+    // Fetch counselor's departments
     const { data: counselorDepartments, error: counselorError } = await supabase
       .from('Counselor Role')
       .select('department')
@@ -178,6 +288,26 @@ myapp.get('/CounselorPendingAppointmentPage', async (req, res) => {
 
     const departments = counselorDepartments.map(entry => entry.department);
 
+    // Fetch new appointments
+    const { data: newAppointments, error: newAppointmentsError } = await supabase
+      .from('Pending Appointment')
+      .select('*')
+      .in('department', departments)
+      .eq('notif', true)
+      .order('date', { ascending: true });
+
+    if (newAppointmentsError) {
+      console.error('Error fetching new appointments:', newAppointmentsError.message);
+console.log('Has new appointments:', newAppointments);
+      return res.status(500).send('Internal server error');
+    }
+    else{
+console.log('Has new appointments:', newAppointments);
+    }
+
+    hasNewAppointments = newAppointments.length > 0;
+
+    // Fetch all pending appointments
     const { data: pendingAppointments, error } = await supabase
       .from('Pending Appointment')
       .select('*')
@@ -189,11 +319,14 @@ myapp.get('/CounselorPendingAppointmentPage', async (req, res) => {
       return res.status(500).send('Internal server error');
     }
 
+
     const currentTime = new Date();
     const updatedPendingAppointments = [];
 
+    // Loop through pending appointments
     for (const appointment of pendingAppointments) {
       const appointedDateTime = new Date(`${appointment.appointed_date} ${appointment.appointed_time}`);
+      
       if (currentTime > appointedDateTime) {
         // Prepare data for 'Appointment History' with REJECTED status
         const rejectedAppointmentData = {
@@ -221,6 +354,8 @@ myapp.get('/CounselorPendingAppointmentPage', async (req, res) => {
           console.error('Error inserting rejected appointment:', insertError.message);
           // Handle the error if insertion fails
         }
+
+        // Delete the rejected appointment from 'Pending Appointment'
         const { error: deleteError } = await supabase
           .from('Pending Appointment')
           .delete()
@@ -233,15 +368,36 @@ myapp.get('/CounselorPendingAppointmentPage', async (req, res) => {
       } else {
         // Appointment is still pending, add it to the updated list
         updatedPendingAppointments.push(appointment);
+        console.log('Pending Appointments:', updatedPendingAppointments);
+
       }
     }
 
-    res.render('CounselorPendingAppointmentPage', { counselorData, pendingAppointments: updatedPendingAppointments });
+    // Update new_flag for the viewed appointments
+    for (const appointment of updatedPendingAppointments) {
+      const { error: updateError } = await supabase
+        .from('Pending Appointment')
+        .update({ notif: false })
+        .eq('id', appointment.id);
+        
+
+      if (updateError) {
+        console.error('Error updating appointment status:', updateError.message);
+        // Handle the error if the update fails
+      }
+      else {
+        console.log('Pending Appointments:', updatedPendingAppointments);
+      }
+    }
+
+    res.render('CounselorPendingAppointmentPage', { counselorData, pendingAppointments: updatedPendingAppointments, hasNewAppointments: hasNewAppointments, });
   } catch (error) {
+    
     console.error('Server error:', error.message);
     res.status(500).send('Internal server error');
   }
 });
+
 
 myapp.get('/CounselorAcceptedAppointmentPage', async (req, res) => {
   try {
@@ -704,7 +860,8 @@ myapp.post('/create-appointment', async (req, res) => {
           notes: service,
           appointed_time: appointmentTime ,
           appointed_date: appointmentDate,
-          prog_stat: 'PENDING'
+          prog_stat: 'PENDING',
+          notif: true
         },
       ]);
 

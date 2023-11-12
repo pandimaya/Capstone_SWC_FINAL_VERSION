@@ -498,6 +498,18 @@ myapp.post('/register', async (req, res) => {
     // Encryption Password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    const emailExists = await supabase
+      .from(accountType === 'Student' ? 'Student Accounts' : 'Counselor Accounts')
+      .select('email')
+      .eq('email', uppercaseEmail)
+      .single();
+
+    if (emailExists.data) {
+      // Handle the case where the email is already registered
+      res.status(400).json({ error: 'The email is already registered. Please log in or reset your password if you forgot it.' });
+      return;
+    }
+
     // Register the user in Supabase
     const { data, error } = await supabase.auth.signUp({
       email,

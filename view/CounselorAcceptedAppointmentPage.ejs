@@ -119,8 +119,8 @@
                 <button class="btn btn-success" data-appointment-id="<%= appointment.id %>">Complete</button>
               </td>
               <td>
-                <button class="btn btn-danger cancel-appointment" data-appointment-id="<%= appointment.id %>">Cancel</button>
-              </td>
+                <button class="btn btn-danger cancel-appointment" data-toggle="modal" data-target="#cancelModal" data-appointment-id="<%= appointment.id %>">Cancel</button>
+            </td>
             </tr>
           <% }); %>
         </tbody>
@@ -154,6 +154,9 @@
   <script src="/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="/vendor/php-email-form/validate.js"></script>
+<!-- Add these lines to include Bootstrap and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <!-- Template Main JS File -->
   <script src="/js/home-page.js"></script>
@@ -177,5 +180,28 @@
       width: 100%;
     }
   </style>
+  <!-- cancelmodal -->
+  <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cancelModalLabel">Accept Appointment</h5>
+          <button type="button" class="close" data-dismiss="modal" id="closeModalX"aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Enter your remarks:</p>
+          <input type="text" class="form-control" id="modalRemarkInput2" placeholder="Remarks">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModalBtn">
+            Close
+          </button>
+          <button type="button" class="btn btn-danger confirm-cancel" data-dismiss="modal">Confirm Accept</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

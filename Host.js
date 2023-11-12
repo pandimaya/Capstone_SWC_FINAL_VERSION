@@ -59,7 +59,6 @@ myapp.get('/studentProfilePage', (req, res) => {
   res.render('studentProfilePage', { studentData });
 });
 
-
 myapp.get('/studentAppointmentStatus', async (req, res) => {
   try {
     // Extract counselor's email from the session data
@@ -1005,6 +1004,7 @@ myapp.post('/acceptAppointment/:appointmentId', async (req, res) => {
     const counselorFName= counselorData.first_name;
     const counselorLName= counselorData.last_name;
     const appointmentId = req.params.appointmentId;  
+    const remarks = req.body.remarks;
    const appointmentDateTime = new Date();
    const options = {
     timeZone: 'Asia/Manila',
@@ -1049,7 +1049,8 @@ myapp.post('/acceptAppointment/:appointmentId', async (req, res) => {
       last_name: student_LName,
       appointed_date: appoint_date,
       appointed_time: appoint_time,
-      prog_stat: 'ACCEPTED'
+      prog_stat: 'ACCEPTED',
+      remarks: remarks
 
     };
 
@@ -1171,6 +1172,7 @@ myapp.post('/rejectAppointment/:appointmentId', async (req, res) => {
     const counselorFName= counselorData.first_name;
     const counselorLName= counselorData.last_name;
     const appointmentId = req.params.appointmentId;  
+    const remarks = req.body.remarks;
    const appointmentDateTime = new Date();
    const options = {
     timeZone: 'Asia/Manila',
@@ -1215,7 +1217,8 @@ myapp.post('/rejectAppointment/:appointmentId', async (req, res) => {
       last_name: student_LName,
       appointed_date: appoint_date,
       appointed_time: appoint_time,
-      prog_status: 'REJECTED'
+      prog_status: 'REJECTED',
+      remarks: remarks
 
     };
 
@@ -1253,7 +1256,8 @@ myapp.post('/cancelAppointment/:appointmentId', async (req, res) => {
     const counselorEmail = counselorData.email;
     const counselorFName= counselorData.first_name;
     const counselorLName= counselorData.last_name;
-    const appointmentId = req.params.appointmentId;  
+    const appointmentId = req.params.appointmentId; 
+    const remarks = req.body.remarks; 
    const appointmentDateTime = new Date();
    const options = {
     timeZone: 'Asia/Manila',
@@ -1298,7 +1302,8 @@ myapp.post('/cancelAppointment/:appointmentId', async (req, res) => {
       last_name: student_LName,
       appointed_date: appoint_date,
       appointed_time: appoint_time,
-      prog_status: 'CANCELLED'
+      prog_status: 'CANCELLED',
+      remarks: remarks
 
     };
 

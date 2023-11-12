@@ -68,8 +68,7 @@
           <li class="dropdown"><a href="#"><span>Appointments</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li>
-                <a href="/CounselorPendingAppointmentPage">
-                </a>
+                <a href="/CounselorPendingAppointmentPage">Pending Appointment</a>
               </li>
               <li><a href="/CounselorAppointmentHistoryPage">Appointment History</a></li>
               <li><a href="/CounselorAcceptedAppointmentPage">Accepted Appointments</a></li>
@@ -122,12 +121,11 @@
               <td><%= appointment.appointed_time %></td>
               <td><%= appointment.appointed_date %></td>
               <td>
-                <button class="btn btn-success" data-appointment-id="<%= appointment.id %>">Accept</button>
+                <button class="btn btn-success accept-appointment" data-toggle="modal" data-target="#acceptModal" data-appointment-id="<%= appointment.id %>">Accept</button>
               </td>
               <td>
-                <button class="btn btn-danger reject-appointment" data-appointment-id="<%= appointment.id %>">Reject</button>
-              </td>
-            </tr>
+                <button class="btn btn-danger reject-appointment" data-toggle="modal" data-target="#rejectModal" data-appointment-id="<%= appointment.id %>">Reject</button>
+            </td>
           <% }); %>
         </tbody>
       </table>
@@ -160,6 +158,9 @@
   <script src="/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="/vendor/php-email-form/validate.js"></script>
+<!-- Add these lines to include Bootstrap and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <!-- Template Main JS File -->
   <script src="/js/home-page.js"></script>
@@ -185,5 +186,52 @@
       width: 100%;
     }
   </style>
+  <!--reject modal -->
+<div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="rejectModalLabel">Reject Appointment</h5>
+
+        <button type="button" class="close" data-dismiss="modal" id="closeModalX"aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Enter your remarks:</p>
+        <input type="text" class="form-control" id="modalRemarkInput" placeholder="Remarks">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModalBtn">
+          Close
+        </button>
+        <button type="button" class="btn btn-danger confirm-reject" data-dismiss="modal">Confirm Reject</button>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- accept modal -->
+  <div class="modal fade" id="acceptModal" tabindex="-1" role="dialog" aria-labelledby="acceptModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="acceptModalLabel">Accept Appointment</h5>
+          <button type="button" class="close" data-dismiss="modal" id="closeModalX"aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Enter your remarks:</p>
+          <input type="text" class="form-control" id="modalRemarkInput1" placeholder="Remarks">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModalBtn">
+            Close
+          </button>
+          <button type="button" class="btn btn-success confirm-accept" data-dismiss="modal">Confirm Accept</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

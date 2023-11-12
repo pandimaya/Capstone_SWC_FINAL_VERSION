@@ -60,18 +60,22 @@
             <ul>
               <li><a href="/adminViewAccounts">View Accounts</a></li>
               <li><a href="/adminCreateAccounts">Create Accounts</a></li>
-              <li><a href="/adminPendingAccounts">Pending Accounts</a></li>
+              <li><a href="/adminEditRoles">Edit Roles</a></li>
               <li><a href="/adminEditAccounts">Edit Accounts</a></li>
             </ul>
           </li>
           <li class="dropdown"><a href="#"><span>Manage Appointment</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
-              <li><a href="#">View Appointment Records</a></li>
+              <li><a href="/adminPendingAppointment">Pending Appointments</a></li>
+              <li><a href="/adminAcceptedAppointment">Accepted Appointments</a></li>
+              <li><a href="/adminAppointmentHistory">Appoinment History</a></li>
             </ul>
           </li>
-          <li class="dropdown"><a href="#"><span>Monitor Documentation</span> <i class="bi bi-chevron-down"></i></a>
+          <li class="dropdown"><a href="#"><span>Documentation</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
-              <li><a href="#">View Documentation</a></li>
+              <li><a href="/adminCounselorLog">Counselor Logs</a></li>
+              <li><a href="/adminCounselorLog">Statistic Report</a></li>
+              <li><a href="/adminCounselorLog">Summary Of Appointment</a></li>
             </ul>
           </li>
           <li><a class="getstarted scrollto" href="/">Logout</a></li>
@@ -89,15 +93,13 @@
           <tr>
             <th scope="col">Time</th>
             <th scope="col">Date</th>
-            <th scope="col">Email</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">First Name</th>
+            <th scope="col">Student Email</th>
+            <th scope="col">Student</th>
+
             <th scope="col">Department</th>
             <th scope="col">Notes</th>
             <th scope="col">Appointed Time</th>
             <th scope="col">Appointed Date</th>
-            <th scope="col">Accept</th>
-            <th scope="col">Reject</th>
           </tr>
         </thead>
         <tbody>
@@ -106,19 +108,11 @@
               <td><%= appointment.time %></td>
               <td><%= appointment.date %></td>
               <td><%= appointment.email %></td>
-              <td><%= appointment.last_name %></td>
-              <td><%= appointment.first_name %></td>
+              <td><%= appointment.last_name %> <%= appointment.first_name %></td>
               <td><%= appointment.department %></td>
               <td><%= appointment.notes %></td>
               <td><%= appointment.appointed_time %></td>
               <td><%= appointment.appointed_date %></td>
-              <td>
-                <button class="btn btn-success" data-appointment-id="<%= appointment.id %>">Accept</button>
-              </td>
-              <td>
-                <button class="btn btn-danger reject-appointment" data-appointment-id="<%= appointment.id %>">Reject</button>
-              </td>
-            </tr>
           <% }); %>
         </tbody>
       </table>

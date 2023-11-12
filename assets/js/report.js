@@ -1,3 +1,37 @@
+async function suggestEmails() {
+    const input = document.getElementById('email').value;
+
+    // Fetch email suggestions from the server endpoint
+    const response = await fetch(`/emailSuggestions?input=${input}`);
+    const data = await response.json();
+
+    const suggestionList = document.getElementById('emailSuggestions');
+    suggestionList.innerHTML = ''; // Clear previous suggestions
+
+    if (data.suggestions) {
+        const filteredSuggestions = data.suggestions.filter(emailData => emailData.email.toLowerCase().startsWith(input.toLowerCase()));
+
+        filteredSuggestions.forEach(emailData => {
+            const suggestion = document.createElement('div');
+            suggestion.textContent = emailData.email; // Display email in the suggestion list
+            suggestion.classList.add('suggestion-item'); // Add a class to the suggestion
+            suggestion.addEventListener('click', () => {
+                fillFormFields(emailData);
+                suggestionList.innerHTML = ''; // Clear the suggestion list after selecting
+            });
+            suggestionList.appendChild(suggestion);
+        });
+    }
+}
+
+function fillFormFields(selectedData) {
+    // Fill form fields with the selected data
+    document.getElementById('email').value = selectedData.email;
+    document.getElementById('fname').value = selectedData.first_name;
+    document.getElementById('lname').value = selectedData.last_name;
+    document.getElementById('department').value = selectedData.department;
+    // ... and so on for other fields
+}
 function insertRecord() {
     const student_Email = document.getElementById('email').value;
     const student_fname = document.getElementById('fname').value;

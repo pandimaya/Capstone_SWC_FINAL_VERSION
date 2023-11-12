@@ -19,15 +19,15 @@ myapp.set('view engine', 'ejs');
 myapp.set('views', __dirname + '/view');
 myapp.use(express.static(__dirname + '/assets'));
 
-// Configure express-session middleware
+
 myapp.use(session({
-  secret: 'your_secret_key', // Change this to a secret key for session encryption
+  secret: 'your_secret_key', 
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } // Set secure to true if you use HTTPS
+  cookie: { secure: false } 
 }));
 
-// Middleware to prevent caching
+
 myapp.use((req, res, next) => {
   res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
   res.setHeader("Pragma", "no-cache");
@@ -40,8 +40,7 @@ const { createClient, SupabaseClient } = require('@supabase/supabase-js');
 const supabase = createClient('https://waeqvekicdlqijxmhclw.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndhZXF2ZWtpY2RscWlqeG1oY2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTUyNjMxNjIsImV4cCI6MjAxMDgzOTE2Mn0.8Ga9_qwNgeAKlqWI_xCLQPJFqGha3XfiNMxrT8_RXaM');
 
 
-
-//LINKS
+//=========GETTING===========//
 myapp.get('/', (req, res) => {
     res.render('LoginPage');
 });
@@ -142,6 +141,7 @@ myapp.get('/studentAppointmentHistory', async (req, res) => {
     res.status(500).send('Internal server error');
   }
 });
+
 myapp.get('/CounselorList', (req, res) => {
   res.render('CounselorList');
 });
@@ -297,13 +297,48 @@ myapp.get('/CounselorAppointmentHistoryPage', async (req, res) => {
   }
 });
 
-myapp.get('/CounselorLogs', (req, res) => {
-  res.render('CounselorLogs');
+myapp.get('/CounselorLogs', async (req, res) => {
+  try {
+    const counselorData = req.session.counselorData;
+    const counselorEmail = counselorData.email;
+    const { data: counselorLog, error } = await supabase
+      .from('Report')
+      .select('*')
+      .eq('counselor_email', counselorEmail)
+      .order('date_encoded', { ascending: true }, 'time_encoded', { ascending: true });
+
+    if (error) {
+      console.error('Error fetching appointments:', error.message);
+      return res.status(500).send('Internal server error');
+    }
+
+    res.render('CounselorLogs', { counselorLog });
+  } catch (error) {
+    // Handle any unexpected server errors
+    console.error('Server error:', error.message);
+    res.status(500).send('Internal server error');
+  }
 });
 
 myapp.get('/CounselorReport', (req, res) => {
   const counselorData = req.session.counselorData;
   res.render('CounselorReport', { counselorData });
+});
+
+myapp.get('/emailSuggestions', async (req, res) => {
+  const userInput = req.query.input; 
+  const { data: suggestedEmails, error } = await supabase
+      .from('Student Accounts')
+      .select('*')
+      .ilike('email', `%${userInput}%`);
+
+  if (error) {
+      // Handle error, if necessary
+      console.error('Error fetching student data:', error);
+      return res.status(500).json({ error: 'Error fetching suggestions' });
+  }
+
+  res.json({ suggestions: suggestedEmails });
 });
 
 myapp.get('/adminCreateAccounts', (req, res) => {
@@ -417,7 +452,29 @@ myapp.get('/adminViewAccounts', async (req, res) => {
   }
 });
 
+myapp.get('/adminCounselorLog', async (req, res) => {
+  try {
+    const { data: counselorLog, error } = await supabase
+      .from('Report')
+      .select('*')
+      .order('date_encoded', { ascending: true },'time_encoded', { ascending: true }); 
 
+    if (error) {
+      console.error('Error fetching appointments:', error.message);
+      return res.status(500).send('Internal server error');
+    }
+
+    res.render('adminCounselorLog', { counselorLog });
+  } catch (error) {
+    // Handle any unexpected server errors
+    console.error('Server error:', error.message);
+    res.status(500).send('Internal server error');
+  }
+});
+
+myapp.get('/adminHomepage', (req, res) => {
+  res.render('adminHomepage');
+});
 
 
 
@@ -440,6 +497,18 @@ myapp.post('/register', async (req, res) => {
 
     // Encryption Password
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    const emailExists = await supabase
+      .from(accountType === 'Student' ? 'Student Accounts' : 'Counselor Accounts')
+      .select('email')
+      .eq('email', uppercaseEmail)
+      .single();
+
+    if (emailExists.data) {
+      // Handle the case where the email is already registered
+      res.status(400).json({ error: 'The email is already registered. Please log in or reset your password if you forgot it.' });
+      return;
+    }
 
     // Register the user in Supabase
     const { data, error } = await supabase.auth.signUp({
@@ -1162,7 +1231,6 @@ myapp.post('/counselorEncoding', async (req, res) => {
    res.status(500).send('Internal server error');
  }
 });
-
 
 myapp.post('/adminCreateAccount', async (req, res) => {
   const { idNumber, email, lastName, firstName, gender, birthDate, phoneNumber, accountType, departmentSelect } = req.body;

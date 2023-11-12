@@ -60,7 +60,7 @@
             <ul>
               <li><a href="/adminViewAccounts">View Accounts</a></li>
               <li><a href="/adminCreateAccounts">Create Accounts</a></li>
-              <li><a href="/adminPendingAccounts">Pending Accounts</a></li>
+              <li><a href="/adminEditRoles">Edit Roles</a></li>
               <li><a href="/adminEditAccounts">Edit Accounts</a></li>
             </ul>
           </li>
@@ -71,9 +71,11 @@
               <li><a href="/adminAppointmentHistory">Appoinment History</a></li>
             </ul>
           </li>
-          <li class="dropdown"><a href="#"><span>Monitor Documentation</span> <i class="bi bi-chevron-down"></i></a>
+          <li class="dropdown"><a href="#"><span>Documentation</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
-              <li><a href="#">View Documentation</a></li>
+              <li><a href="/adminCounselorLog">Counselor Logs</a></li>
+              <li><a href="/adminCounselorLog">Statistic Report</a></li>
+              <li><a href="/adminCounselorLog">Summary Of Appointment</a></li>
             </ul>
           </li>
           <li><a class="getstarted scrollto" href="/">Logout</a></li>
@@ -104,8 +106,8 @@
       <thead class="table-dark">
         <tr>
           <th scope="col">Email</th>
-          <th scope="col">Last Name</th>
-          <th scope="col">First Name</th>
+          <th scope="col">Name</th>
+
           <th scope="col">ID</th>
           <th scope="col">Birthdate</th>
           <th scope="col">Gender</th>
@@ -117,8 +119,7 @@
         <% studentViewAccounts.forEach((item) => { %>
           <tr>
             <th scope="row"><%= item.email %></th>         
-            <td><%= item.last_name %></td>
-            <td><%= item.first %></td>
+            <td><%= item.last_name %> <%= item.first_name %></td>
             <td><%= item.id_number %></td>
             <td><%= item.birth_date %></td>
             <td><%= item.gender %></td>        
@@ -136,8 +137,8 @@
       <thead class="table-dark">
         <tr>
           <th scope="col">Email</th>
-          <th scope="col">Last Name</th>
-          <th scope="col">First Name</th>
+          <th scope="col">Name</th>
+
           <th scope="col">ID</th>
           <th scope="col">Birthdate</th>
           <th scope="col">Gender</th>
@@ -148,8 +149,7 @@
         <% counselorViewAccounts.forEach((item2) => { %>
           <tr>
             <th scope="row"><%= item2.email %></th>         
-            <td><%= item2.last_name %></td>
-            <td><%= item2.first %></td>
+            <td><%= item2.last_name %> <%= item2.first_name %></td>
             <td><%= item2.id_number %></td>
             <td><%= item2.birth_date %></td>
             <td><%= item2.gender %></td>        

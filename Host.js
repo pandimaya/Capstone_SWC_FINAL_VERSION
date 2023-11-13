@@ -82,6 +82,7 @@ console.log('Received email:', userEmail);
     res.status(500).json({ error: 'Unexpected error' });
   }
 });
+
 myapp.get('/studentProfilePage', (req, res) => {
   const studentData = req.session.studentData;
   res.render('studentProfilePage', { studentData });

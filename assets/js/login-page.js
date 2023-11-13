@@ -32,19 +32,6 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           // Handle failed login
           console.error('Error during login:', response.statusText);
-          return;
-        }
-
-        // Parse the JSON response
-        const data = await response.json();
-
-        // Check the user's account type and redirect accordingly
-        if (data.accountType === 'Student') {
-          window.location.href = '/StudentHomepage'; // Redirect to student homepage
-        } else if (data.accountType === 'Counselor') {
-          window.location.href = '/CounselorHomepage'; // Redirect to counselor homepage
-        } else {
-          console.error('Unknown account type:', data.accountType);
         }
       } catch (error) {
         console.error('Error during login:', error);

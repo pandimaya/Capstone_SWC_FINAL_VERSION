@@ -1490,4 +1490,13 @@ td, th {
   padding: 8px;
   text-align: left;
 }
+.badge-notification {
+  font-size: 0.7em; /* Decrease the font size to make it smaller */
+  position: absolute;
+  top: 0; /* Position from the top */
+  right: 0; /* Position from the right */
+  transform: translate(-50%, -7%); /* Fine-tuning the position */
+  /* Other styles as needed */
+}
+
 

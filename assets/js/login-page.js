@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!response.ok) {
           // Handle login failure
           console.error('Error during login:', response.statusText);
+          alert("Incorrect email or password");
           return;
         }
 

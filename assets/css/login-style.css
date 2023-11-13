@@ -29,7 +29,7 @@ input:focus, textarea:focus {
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    border: 1px solid #D500F9 !important;
+    border: 1px solid #087830 !important;
     outline-width: 0;
     font-weight: 400;
 }
@@ -48,12 +48,12 @@ a:focus {
 
 .card1 {
     width: 50%;
-    padding: 40px 30px 10px 30px;
+    padding: 20px 30px 10px 30px;
 }
 
 .card2 {
     width: 50%;
-    background-image: linear-gradient(to right, #56C596, #4CAF50, #00796B); /* Three-color gradient background */
+    background-image: linear-gradient(to right, #087830, #098A37, #0A9D3F);/* Three-color gradient background */
 }
 
 #logo {

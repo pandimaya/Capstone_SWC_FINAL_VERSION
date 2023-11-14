@@ -40,12 +40,14 @@ const { createClient, SupabaseClient } = require('@supabase/supabase-js');
 const supabase = createClient('https://waeqvekicdlqijxmhclw.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndhZXF2ZWtpY2RscWlqeG1oY2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTUyNjMxNjIsImV4cCI6MjAxMDgzOTE2Mn0.8Ga9_qwNgeAKlqWI_xCLQPJFqGha3XfiNMxrT8_RXaM');
 
 
+
 //=========GETTING===========//
 myapp.get('/', (req, res) => {
     res.render('LoginPage');
 });
 
 myapp.get('/Registerpage', (req, res) => {
+  
   res.render('RegisterPage');
 });
 

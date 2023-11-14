@@ -43,47 +43,20 @@ const { createClient, SupabaseClient } = require('@supabase/supabase-js');
 const supabase = createClient('https://waeqvekicdlqijxmhclw.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndhZXF2ZWtpY2RscWlqeG1oY2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTUyNjMxNjIsImV4cCI6MjAxMDgzOTE2Mn0.8Ga9_qwNgeAKlqWI_xCLQPJFqGha3XfiNMxrT8_RXaM');
 
 
+
 //=========GETTING===========//
 myapp.get('/', (req, res) => {
     res.render('LoginPage');
 });
 
 myapp.get('/Registerpage', (req, res) => {
+  
   res.render('RegisterPage');
 });
 
-myapp.get('/StudentHomepage', async (req, res) => {
-  const userEmail = req.query.email;
-console.log('Received email:', userEmail);
-
-  try {
-    // Fetch the specific student data from the "Student Accounts" table based on the logged-in user's email
-    const { data: studentData, error: studentError } = await supabase
-      .from('Student Accounts')
-      .select('*')
-      .eq('email', userEmail);
-
-    if (studentError) {
-      console.error('Error fetching student data:', studentError.message);
-      res.status(500).json({ error: 'Error fetching student data' });
-      return;
-    }
-
-    // Check if there's exactly one row returned
-    if (studentData.length === 1) {
-      // Render the StudentHomepage EJS template with the specific student data
-      res.render('StudentHomepage', { studentData: studentData[0] });
-    } else if (studentData.length === 0) {
-      // Handle case when no rows are returned
-      res.status(404).json({ error: 'Student not found' });
-    } else {
-      // Handle case when multiple rows are returned (unexpected)
-      res.status(500).json({ error: 'Multiple rows found for the specified email' });
-    }
-  } catch (e) {
-    console.error('Unexpected error:', e);
-    res.status(500).json({ error: 'Unexpected error' });
-  }
+myapp.get('/StudentHomepage', (req, res) => {
+  const studentData = req.session.studentData;
+  res.render('StudentHomepage', { studentData });
 });
 
 myapp.get('/studentProfilePage', (req, res) => {
@@ -804,7 +777,7 @@ myapp.post('/login', async (req, res) => {
       return;
     }
     console.log(data || data.userData);
-    
+
       // Fetch the student data from the specific table
       const { data: studentData, error: studentError } = await supabase
         .from('Student Accounts')
@@ -813,20 +786,41 @@ myapp.post('/login', async (req, res) => {
         .single();
 
         // Check if the user is a student
-    if (studentData) {
-      console.log(studentData);
-      // Send the student data back to the client
-      res.status(200).json({ studentData });
-      return;
-    }
-
-    // Handle non-student cases
-    res.status(200).json({ message: 'Login successful but not a student' });
+        if (studentData) {
+          console.log(studentData);
+          
+        // Store the student data in the session
+        req.session.studentData = studentData;
+        res.status(200).json({ success: 'Login successful', accountType: 'Student' });
+        return;
 
     }
-   catch (e) {
+    else {
+    // Fetch the counselor data from the specific table
+    const { data: counselorData, error: counselorError } = await supabase
+      .from('Counselor Accounts')
+      .select('*')
+      .eq('email', email.toUpperCase())
+      .single();
+
+      // Check if the user is a counselor
+    if (counselorData) {
+      console.log(counselorData);
+      // Store the counselor data in the session
+      req.session.counselorData = counselorData;
+      // Redirect to the counselor homepage
+      res.status(200).json({ success: 'Login successful', accountType: 'Counselor' });
+        return;
+    }
+     else 
+     {console.error('User data not found');
+     res.status(404).json({ error: 'User not found' });
+    }
+
+    }
+  } catch (e) {
     console.error('Unexpected error:', e);
-    
+    res.status(500).json({ error: 'Login failed' });
   }
 });
 

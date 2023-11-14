@@ -801,29 +801,49 @@ myapp.post('/login', async (req, res) => {
       return;
     }
     console.log(data || data.userData);
-    
+
       // Fetch the student data from the specific table
       const { data: studentData, error: studentError } = await supabase
         .from('Student Accounts')
         .select('*')
-        .eq('email', email.toUpperCase())
+        .eq('email', email)
         .single();
 
         // Check if the user is a student
-    if (studentData) {
-      console.log(studentData);
-      // Send the student data back to the client
-      res.status(200).json({ studentData });
-      return;
-    }
-
-    // Handle non-student cases
-    res.status(200).json({ message: 'Login successful but not a student' });
+        if (studentData) {
+          console.log(studentData);
+        // Store the student data in the session
+        req.session.studentData = studentData;
+        res.status(200).json({ success: 'Login successful', accountType: 'Student' });
+        return;
 
     }
-   catch (e) {
+    else {
+    // Fetch the counselor data from the specific table
+    const { data: counselorData, error: counselorError } = await supabase
+      .from('Counselor Accounts')
+      .select('*')
+      .eq('email', email)
+      .single();
+
+      // Check if the user is a counselor
+    if (counselorData) {
+      console.log(counselorData);
+      // Store the counselor data in the session
+      req.session.counselorData = counselorData;
+      // Redirect to the counselor homepage
+      res.status(200).json({ success: 'Login successful', accountType: 'Counselor' });
+        return;
+    }
+     else 
+     {console.error('User data not found');
+     res.status(404).json({ error: 'User not found' });
+    }
+
+    }
+  } catch (e) {
     console.error('Unexpected error:', e);
-    
+    res.status(500).json({ error: 'Login failed' });
   }
 });
 
@@ -1510,4 +1530,3 @@ myapp.post('/adminCreateAccount', async (req, res) => {
     res.status(500).json({ error: 'Registration failed' });
   }
 });
-

@@ -1501,4 +1501,3 @@ myapp.post('/adminCreateAccount', async (req, res) => {
     res.status(500).json({ error: 'Registration failed' });
   }
 });
-

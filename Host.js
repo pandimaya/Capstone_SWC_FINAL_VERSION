@@ -49,38 +49,9 @@ myapp.get('/Registerpage', (req, res) => {
   res.render('RegisterPage');
 });
 
-myapp.get('/StudentHomepage', async (req, res) => {
-  const userEmail = req.query.email;
-console.log('Received email:', userEmail);
-
-  try {
-    // Fetch the specific student data from the "Student Accounts" table based on the logged-in user's email
-    const { data: studentData, error: studentError } = await supabase
-      .from('Student Accounts')
-      .select('*')
-      .eq('email', userEmail);
-
-    if (studentError) {
-      console.error('Error fetching student data:', studentError.message);
-      res.status(500).json({ error: 'Error fetching student data' });
-      return;
-    }
-
-    // Check if there's exactly one row returned
-    if (studentData.length === 1) {
-      // Render the StudentHomepage EJS template with the specific student data
-      res.render('StudentHomepage', { studentData: studentData[0] });
-    } else if (studentData.length === 0) {
-      // Handle case when no rows are returned
-      res.status(404).json({ error: 'Student not found' });
-    } else {
-      // Handle case when multiple rows are returned (unexpected)
-      res.status(500).json({ error: 'Multiple rows found for the specified email' });
-    }
-  } catch (e) {
-    console.error('Unexpected error:', e);
-    res.status(500).json({ error: 'Unexpected error' });
-  }
+myapp.get('/StudentHomepage', (req, res) => {
+  const studentData = req.session.studentData;
+  res.render('StudentHomepage', { studentData });
 });
 
 myapp.get('/studentProfilePage', (req, res) => {
@@ -806,7 +777,7 @@ myapp.post('/login', async (req, res) => {
       const { data: studentData, error: studentError } = await supabase
         .from('Student Accounts')
         .select('*')
-        .eq('email', email)
+        .eq('email', email.toUpperCase())
         .single();
 
         // Check if the user is a student
@@ -823,7 +794,7 @@ myapp.post('/login', async (req, res) => {
     const { data: counselorData, error: counselorError } = await supabase
       .from('Counselor Accounts')
       .select('*')
-      .eq('email', email)
+      .eq('email', email.toUpperCase())
       .single();
 
       // Check if the user is a counselor

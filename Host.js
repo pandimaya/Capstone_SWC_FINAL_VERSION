@@ -819,7 +819,7 @@ myapp.post('/login', async (req, res) => {
 
     }
   } catch (e) {
-    console.error('Unexpected error:', e);
+    console.error('Unexpected error:', e); 
     res.status(500).json({ error: 'Login failed' });
   }
 });

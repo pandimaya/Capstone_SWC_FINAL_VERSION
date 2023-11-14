@@ -783,6 +783,7 @@ myapp.post('/login', async (req, res) => {
         // Check if the user is a student
         if (studentData) {
           console.log(studentData);
+          res.locals.studentData = studentData;
         // Store the student data in the session
         req.session.studentData = studentData;
         res.status(200).json({ success: 'Login successful', accountType: 'Student' });

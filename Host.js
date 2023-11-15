@@ -29,6 +29,9 @@ myapp.use(session({
 
 
 myapp.use((req, res, next) => {
+  const studentData = req.session.studentData; /* Your logic to retrieve student data */;
+  // Pass studentData to all EJS templates
+  res.locals.studentData = studentData;
   res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
   res.setHeader("Pragma", "no-cache");
   res.setHeader("Expires", "0");
@@ -816,7 +819,7 @@ myapp.post('/login', async (req, res) => {
 
     }
   } catch (e) {
-    console.error('Unexpected error:', e);
+    console.error('Unexpected error:', e); 
     res.status(500).json({ error: 'Login failed' });
   }
 });

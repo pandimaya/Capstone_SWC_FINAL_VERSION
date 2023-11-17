@@ -1,4 +1,9 @@
-let preloader = select('#loading-screen');
-if (preloader) {
-    window.addEventListener('load', () => {
-        preloader.remove()});}
+window.addEventListener("load", () => {
+    const loader = document.querySelector(".loader");
+
+    loader.classList.add("loader-hidden");
+
+    loader.addEventListener("transistionend", () => {
+        document.body.removeChild("loader");
+    })
+}) 

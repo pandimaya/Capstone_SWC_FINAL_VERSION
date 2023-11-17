@@ -13,7 +13,7 @@
     "nodemailer": "^6.9.5"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node Host.js"
   },
   "name": "green",
   "description": "Thanks for downloading this template!",

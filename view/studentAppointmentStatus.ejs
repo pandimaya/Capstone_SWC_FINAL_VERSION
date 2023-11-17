@@ -75,7 +75,6 @@
             </ul>
           </li>
 
-          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
           <li><a class="getstarted scrollto" href="/">Logout</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
@@ -86,50 +85,76 @@
   </header><!-- End Header -->
 
   <main id="main">
-    <div class="table-responsive">
-      <table class="table table-hover">
-        <thead class="table-dark">
-          <tr>
-            <th scope="col">Time</th>
-            <th scope="col">Date</th>
-            <th scope="col">Counselor Email</th>
-            <th scope="col">Counselor</th>
-            <th scope="col">Appointed Time</th>
-            <th scope="col">Appointed Date</th>
-            <th scope="col">Program Status</th>
-            <th scope="col">Cancel</th>     
-          </tr>
-        </thead>
-        <tbody>
-            <% pendingAppointment.forEach((appointment) => { %>
-                <tr>
-                  <td><%= appointment.time %></td>
-                  <td><%= appointment.date %></td>
-                  <td>N/A</td>
-                  <td>N/A</td>
-                  <td><%= appointment.appointed_time %></td>
-                  <td><%= appointment.appointed_date %></td>
-                  <td><%= appointment.prog_stat %></td>
-                  <td>
-                    <button class="btn btn-danger cancel-appointment" data-appointment-id="<%= appointment.id %>">Cancel</button>
-                  </td>
-                </tr>
-              <% }); %>
-
-          <% acceptedAppointment.forEach((appointment) => { %>
-            <tr>
-              <td><%= appointment.time %></td>
-              <td><%= appointment.date %></td>
-              <td><%= appointment.counselor_email %></td>
-              <td><%= appointment.counselor_Lname %> <%= appointment.counselor_Fname %></td>
-              <td><%= appointment.appointed_time %></td>
-              <td><%= appointment.appointed_date %></td>
-              <td><%= appointment.prog_stat %></td>
-            </tr>
-          <% }); %>
-        </tbody>
-      </table>
-    </div>
+    <div className="table-responsive">
+      <table className="table border border-2 table-hover">
+                <thead class="table-dark">
+                  <tr>
+                    <th scope="col">Time</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Counselor Email</th>
+                    <th scope="col">Counselor</th>
+                    <th scope="col">Appointed Time</th>
+                    <th scope="col">Appointed Date</th>
+                    <th scope="col">Program Status</th>
+                    <th scope="col">Cancel</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% pendingAppointment.forEach((appointment)=> { %>
+                    <tr>
+                      <td>
+                        <%= appointment.time %>
+                      </td>
+                      <td>
+                        <%= appointment.date %>
+                      </td>
+                      <td>N/A</td>
+                      <td>N/A</td>
+                      <td>
+                        <%= appointment.appointed_time %>
+                      </td>
+                      <td>
+                        <%= appointment.appointed_date %>
+                      </td>
+                      <td>
+                        <%= appointment.prog_stat %>
+                      </td>
+                      <td>
+                        <button class="btn btn-danger cancel-appointment"
+                          data-appointment-id="<%= appointment.id %>">Cancel</button>
+                      </td>
+                    </tr>
+                    <% }); %>
+  
+                      <% acceptedAppointment.forEach((appointment)=> { %>
+                        <tr>
+                          <td>
+                            <%= appointment.time %>
+                          </td>
+                          <td>
+                            <%= appointment.date %>
+                          </td>
+                          <td>
+                            <%= appointment.counselor_email %>
+                          </td>
+                          <td>
+                            <%= appointment.counselor_Lname %>
+                              <%= appointment.counselor_Fname %>
+                          </td>
+                          <td>
+                            <%= appointment.appointed_time %>
+                          </td>
+                          <td>
+                            <%= appointment.appointed_date %>
+                          </td>
+                          <td>
+                            <%= appointment.prog_stat %>
+                          </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+              </table>
+            </div>  
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->

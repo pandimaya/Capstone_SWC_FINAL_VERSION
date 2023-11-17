@@ -1,0 +1,17 @@
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white; /* Set your desired background color */
+    z-index: 1000; /* Adjust the z-index to make sure it's above other elements */
+  }
+  
+  .spinner-border {
+    width: 3rem; /* Adjust the size of the spinner */
+    height: 3rem; /* Adjust the size of the spinner */
+  }

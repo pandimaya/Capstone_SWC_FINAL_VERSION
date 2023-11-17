@@ -1,4 +1,3 @@
-// Wait for the DOM to be fully loaded
 document.addEventListener("DOMContentLoaded", function () {
   // Get a reference to the login form by its ID
   const loginForm = document.getElementById("login-form");
@@ -12,22 +11,28 @@ document.addEventListener("DOMContentLoaded", function () {
     loginForm.addEventListener("submit", async function (e) {
       e.preventDefault(); // Prevent the default form submission
 
+      // Show the loading screen
+      showLoadingScreen();
+
       // Get the user's email and password from the input fields
       const email = emailInput.value;
       const password = passwordInput.value;
 
       // Send a POST request to your server with the login data
       try {
-        const response =await fetch("/login", {
+        const response = await fetch("/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email, password }),
         });
+
         if (!response.ok) {
           // Handle login failure
           console.error('Error during login:', response.statusText);
+          // Hide the loading screen in case of an error
+          hideLoadingScreen();
           return;
         }
 
@@ -44,7 +49,25 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       } catch (error) {
         console.error('Error during login:', error);
+        // Hide the loading screen in case of an error
+        hideLoadingScreen();
       }
     });
   }
 });
+
+// Function to show the loading screen
+function showLoadingScreen() {
+  const loadingScreen = document.getElementById("loading-screen");
+  if (loadingScreen) {
+    loadingScreen.style.display = "flex";
+  }
+}
+
+// Function to hide the loading screen
+function hideLoadingScreen() {
+  const loadingScreen = document.getElementById("loading-screen");
+  if (loadingScreen) {
+    loadingScreen.style.display = "none";
+  }
+}
